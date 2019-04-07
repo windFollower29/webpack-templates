@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server",
     "dev": "webpack -w",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +31,7 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {

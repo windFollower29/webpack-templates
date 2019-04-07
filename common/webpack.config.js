@@ -105,8 +105,13 @@ const clientConf = {
     new webpack.DefinePlugin({
       CLIENT: JSON.stringify(true),
       SERVER: JSON.stringify(false)
-    })
-  ]
+    }),
+    // new webpack.HotModuleReplacementPlugin()
+  ],
+  devServer: {
+    contentBase: './dist',
+    // hot: true
+  }
 };
 
 module.exports = clientConf
