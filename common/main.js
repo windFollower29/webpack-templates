@@ -3,6 +3,8 @@ import laydate from 'layui-laydate'
 
 import './node_modules/layui-laydate/dist/theme/default/laydate.css'
 
+import Hot from './js/foo'
+
 export default class Page {
   constructor () {
 
@@ -18,6 +20,9 @@ export default class Page {
       })
 
     window.addEventListener('load', () => {
+
+      new Hot()
+
       let mylaydate = laydate.render({
         elem: '.datepicker',
         range: true,
@@ -61,4 +66,12 @@ export default class Page {
   }
 }
 
-new Page
+new Page()
+
+if (module.hot) {
+  module.hot.accept('./js/foo.js', function() {
+    console.log('Accepting the updated printMe module!');
+    // printMe()
+    new Hot()
+  })
+}
