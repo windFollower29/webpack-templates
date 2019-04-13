@@ -1,15 +1,17 @@
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
+const isPro = require('./const').isPro
+
 module.exports = {
   rules: [
     {
       test: /\.scss$/,
       use: [
         {
-          loader: MiniCssExtractPlugin.loader,
+          loader: isPro ? MiniCssExtractPlugin.loader : 'style-loader',
           options: {
-
+          
           }
         },
         {

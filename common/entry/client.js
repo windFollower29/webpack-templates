@@ -1,10 +1,13 @@
 
 import laydate from 'layui-laydate'
 
-import './node_modules/layui-laydate/dist/theme/default/laydate.css'
+import '../node_modules/layui-laydate/dist/theme/default/laydate.css'
 
-import Hot from './js/foo'
+import '../css/main.scss'
 
+import common from '../js/common'
+
+import Hot from '../js/hot_entry'
 export default class Page {
   constructor () {
 
@@ -16,7 +19,7 @@ export default class Page {
     this.delay(300)
       .then(() => {
 
-        console.log('after_delay')
+        // console.log('after_delay')
       })
 
     window.addEventListener('load', () => {
@@ -38,16 +41,16 @@ export default class Page {
           // if(date.year === 2017 && date.month === 8 && date.date === 15){ //点击2017年8月15日，弹出提示语
           //   alert('这一天是：中国人民抗日战争胜利72周年');
           // }
-          console.log(value, date)
+          // console.log(value, date)
         },
         change: function(value, date, endDate){
-          console.log(value, date, endDate); //得到日期生成的值，如：2017-08-18
+          // console.log(value, date, endDate); //得到日期生成的值，如：2017-08-18
           // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
           // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
         }
       })
 
-      console.log('mylaydate', mylaydate)
+      // console.log('mylaydate', mylaydate)
     }, false)
   }
 
@@ -56,21 +59,25 @@ export default class Page {
     await new Promise((resolve, reject) => {
 
       setTimeout(() => {
-        console.log('setTimeout')
+        // console.log('setTimeout')
 
         resolve()
       }, time);
     })
 
-    console.log('after_await')
+    // console.log('after_await')
   }
 }
 
 new Page()
 
 if (module.hot) {
-  module.hot.accept('./js/foo.js', function() {
+  module.hot.accept([
+    '../js/hot_entry.js',
+    // './css/main.css'
+  ], function(a, b, c, d) {
     console.log('Accepting the updated printMe module!');
+    console.log(a, b, c, d)
     // printMe()
     new Hot()
   })
