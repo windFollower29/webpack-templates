@@ -6,7 +6,7 @@ import '../node_modules/layui-laydate/dist/theme/default/laydate.css'
 import '../css/main.scss'
 
 import common from '../js/common'
-
+// console.log(common)
 import Hot from '../js/hot_entry'
 export default class Page {
   constructor () {

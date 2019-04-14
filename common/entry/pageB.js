@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import common from '../js/common'
 
 class Server {

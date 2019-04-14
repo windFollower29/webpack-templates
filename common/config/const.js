@@ -1,4 +1,5 @@
 
 module.exports = {
-  isPro: process.env.NODE_ENV === 'production' ? true : false
+  isPro: process.env.NODE_ENV === 'production' ? true : false,
+  isReport: process
 }
