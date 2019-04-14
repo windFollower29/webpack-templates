@@ -19,7 +19,7 @@ export default class Page {
     this.delay(300)
       .then(() => {
 
-        // console.log('after_delay')
+        console.log('after_delay')
       })
 
     window.addEventListener('load', () => {

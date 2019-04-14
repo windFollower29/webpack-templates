@@ -9,7 +9,7 @@ class Server {
   }
 
   init () {
-    console.log('server')
+    // console.log('server')
   }
 }
 
