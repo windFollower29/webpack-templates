@@ -1,6 +1,6 @@
-import $ from 'jquery'
+// import $ from 'jquery'
 
-import common from '../js/common'
+// import common from '../js/common'
 
 class Server {
   constructor () {
@@ -9,7 +9,7 @@ class Server {
   }
 
   init () {
-    // console.log('server')
+    console.log('server')
   }
 }
 
