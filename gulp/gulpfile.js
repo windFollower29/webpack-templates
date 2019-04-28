@@ -1,4 +1,5 @@
 
+const path = require('path')
 var watchify = require('watchify');
 var browserify = require('browserify');
 var gulp = require('gulp');
@@ -22,6 +23,8 @@ const gulpSequence = require('gulp-sequence')
 
 const BUILD_DIR =  'dist'
 
+const htmls = './pages/**/*.html'
+
 let x = []
 
 let lazyRev = lazypipe()
@@ -37,7 +40,7 @@ let lazyManifest = lazypipe()
   })
   .pipe(gulp.dest, BUILD_DIR)
 
-
+// 首次编译时使用
 function bundle (b, entry) {
   console.log(entry)
 
@@ -60,8 +63,9 @@ function bundle (b, entry) {
     
 }
 
-function bundle2 (b, entry) {
-
+// 文件更新时使用
+function bundle2 (b, entry, cb) {
+// console.log('bundle2', entry)
   return b.transform('babelify', {
       presets: [
         '@babel/preset-env',
@@ -79,6 +83,20 @@ function bundle2 (b, entry) {
     }))
     .pipe(lazyRev())
     .pipe(lazyManifest())
+    .on('end', () => {
+      console.log('bundle2_end', entry)
+
+      const dir = './pages'
+      const ext = '.html'
+      const files = path.format({
+        dir,
+        ext,
+        name: path.parse(entry).name
+      })
+      console.log(files)
+      
+      cb && cb(files)
+    })
     
 }
     
@@ -127,25 +145,30 @@ gulp.task('js', function (cb) {
     })
 
     return es.merge(tasks)
-      .on('end', cb)
+      .on('end', () => {
+        console.log('js_end')
+        cb()
+      })
       .pipe(lazyManifest())
   })
 })
 
 function watchTask () {
   x.forEach(({ b, entry }) => {
-    b.on('update', bundle2.bind(null, b, entry))
+    b.on('update', bundle2.bind(null, b, entry, runRev))
     b.on('log', gutil.log)
   })
+  console.log('watchTask_end')
 }
 
-gulp.task('watch', ['js'], cb => {
+gulp.task('watch', ['rev'], cb => {
   watchTask()
   cb()
 })
 
-gulp.task('rev', ['watch'], cb => {
-  return gulp.src([`dist/m.json`, 'pages/pageB.html'])
+function runRev (files='pages/pageB.html') {
+
+  return gulp.src([`dist/m.json`, files])
     .pipe(revCollector())
     // .pipe(revCollector({
     //   replaceReved: true,
@@ -155,7 +178,27 @@ gulp.task('rev', ['watch'], cb => {
     //   }
     // }))
     .on('error', gutil.log)
-    .pipe(gulp.dest( BUILD_DIR))
+    .pipe(gulp.dest(BUILD_DIR))
+}
+
+// gulp.task('rev', ['watch'], cb => {
+gulp.task('rev', ['js'], cb => {
+
+  console.log('rev_begin')
+
+  return runRev(htmls)
+
+  // return gulp.src([`dist/m.json`, 'pages/pageB.html'])
+  //   .pipe(revCollector())
+  //   // .pipe(revCollector({
+  //   //   replaceReved: true,
+  //   //   dirReplacements: {
+  //   //     // 'css': '/dist/css',
+  //   //     '/js/': '/dist/entry/',
+  //   //   }
+  //   // }))
+  //   .on('error', gutil.log)
+  //   .pipe(gulp.dest(BUILD_DIR))
 })
 
 gulp.task('dev', ['js', 'watch', 'rev'])
