@@ -3,10 +3,11 @@
     [
       "@babel/preset-env",
       {
+        "modules": false,
+        "useBuiltIns": "usage",
         "targets": {
-          // "browsers": [
-          //   "IE >= 9.0"
-          // ]
+          "ie": "9",
+          "chrome": "58"
         }
       }
     ],
@@ -17,8 +18,13 @@
     ["@babel/plugin-proposal-class-properties", { "loose" : true }],
     "@babel/plugin-syntax-dynamic-import",
     // "@loadable/babel-plugin",
-    [
-      "@babel/plugin-transform-runtime"
-    ]
+    // [
+    //   "@babel/transform-runtime",
+    //   {
+    //     "regenerator": true,
+    //     // "corejs": 2
+    //   }
+    // ],
+    "@babel/transform-regenerator"
   ]
 }

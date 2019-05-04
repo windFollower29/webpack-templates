@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
+const NodemonPlugin = require( 'nodemon-webpack-plugin' )
 
 const loader = require('./loader')
 
@@ -20,7 +21,7 @@ const baseConf = {
   devtool: 'source-map',
   mode: process.env.NODE_ENV,
   entry: {
-    client: './entry/pageA.js',
+    // client: './entry/pageA.js',
     server: './entry/pageB.js'
     // vender: ['layui-laydate']
   },
@@ -47,7 +48,8 @@ const baseConf = {
       // publicPath: './css',
       chunkFilename: "[id].css"
     }),
-    new ManifestPlugin()
+    new ManifestPlugin(),
+    // new NodemonPlugin()
   ],
   optimization: {
     splitChunks: {
